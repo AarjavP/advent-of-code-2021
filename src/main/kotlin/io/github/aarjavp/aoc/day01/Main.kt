@@ -1,21 +1,32 @@
 package io.github.aarjavp.aoc.day01
 
-import io.github.aarjavp.aoc.readInput
+import io.github.aarjavp.aoc.readFromClasspath
+
+class Day01 {
+
+    fun consolidate(slidingWindowSize: Int, depths: Sequence<Int>): Sequence<Int> {
+        return depths.windowed(slidingWindowSize, partialWindows = false) { it.sum() }
+    }
+
+    fun countIncreases(depths: Sequence<Int>): Int {
+        return depths.zipWithNext().count { it.second > it.first }
+    }
+
+}
+
 
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+    val solution = Day01()
+    readFromClasspath("Day01.txt").useLines { lines ->
+        val scannedDepths = lines.map { it.toInt() }
+        val increases = solution.countIncreases(scannedDepths)
+        println("increases for raw: $increases")
     }
-
-    fun part2(input: List<String>): Int {
-        return input.size
+    readFromClasspath("Day01.txt").use { input ->
+        val scannedDepths = input.lineSequence().map { it.toInt() }
+        val windowSize = 3
+        val windowedDepths = solution.consolidate(slidingWindowSize = windowSize, depths = scannedDepths)
+        val increases = solution.countIncreases(windowedDepths)
+        println("increases for window size $windowSize: $increases")
     }
-
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test.txt")
-    check(part1(testInput) == 1)
-
-    val input = readInput("Day01.txt")
-    println(part1(input))
-    println(part2(input))
 }

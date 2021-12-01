@@ -1,15 +1,17 @@
 package io.github.aarjavp.aoc
 
+import java.io.BufferedReader
 import java.math.BigInteger
 import java.security.MessageDigest
 
 /**
- * Reads lines from the given input txt file.
+ * Opens a BufferedReader for resource on classpath at the given path.
+ * The caller is responsible for closing the reader.
  */
-fun readInput(name: String): List<String> {
-    val stream = Thread.currentThread().contextClassLoader.getResourceAsStream(name)
-    if (stream == null) error("Requested resource not found on classpath: $name")
-    return stream.use { it.bufferedReader().readLines() }
+fun readFromClasspath(path: String): BufferedReader {
+    val stream = Thread.currentThread().contextClassLoader.getResourceAsStream(path)
+    if (stream == null) error("Requested resource not found on classpath: $path")
+    return stream.bufferedReader()
 }
 
 /**
