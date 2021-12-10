@@ -57,11 +57,7 @@ class Day10 {
         val scores = lines.filter { getIllegalType(it) == null }
             .map { score(complete(it)) }.toMutableList().apply { sort() }
         check(scores.size % 2 == 1)
-        val middle = scores[scores.size/2]
-        val smaller = scores.count { it < middle }
-        val larger = scores.count { it > middle }
-        check(smaller == larger)
-        return middle
+        return scores[scores.size/2]
     }
 
 }
